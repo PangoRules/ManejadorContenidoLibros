@@ -21,7 +21,7 @@ class CreateCategoriasTable extends Migration
             $table->timestamps();
         });
         Schema::table('categorias', function($table){
-            $table->foreign('catPadre')->references('id')->on('categorias');
+            $table->foreign('catPadre')->references('id')->on('categorias')->onDelete('cascade');
         });
     }
 

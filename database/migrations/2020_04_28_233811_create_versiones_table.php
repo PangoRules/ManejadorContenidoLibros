@@ -25,7 +25,7 @@ class CreateVersionesTable extends Migration
         });
 
         Schema::table('versiones', function($table){
-            $table->foreign('idlibro')->references('id')->on('libros');
+            $table->foreign('idlibro')->references('id')->on('libros')->onDelete('cascade');
         });
     }
 

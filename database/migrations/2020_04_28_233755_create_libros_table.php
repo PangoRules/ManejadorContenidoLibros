@@ -29,7 +29,7 @@ class CreateLibrosTable extends Migration
         });
 
         Schema::table('libros', function($table){
-            $table->foreign('idcategoria')->references('id')->on('categorias');
+            $table->foreign('idcategoria')->references('id')->on('categorias')->onDelete('cascade');
         });
     }
 
