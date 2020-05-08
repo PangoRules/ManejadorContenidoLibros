@@ -22,7 +22,7 @@
         <div class="container text-center">
             <h1>Bienvenido {{ Auth::user()->name }}</h1>
         </div>
-        @if(Auth::user()->name == 'autor')
+        @if($rol[0]["nombre"] == 'Autor')
             <div class="container mt-4 mb-5">
                 <button type="button" onclick="mostrarForm()" class="btn btn-primary">Proponer contenido</button>
             </div>
@@ -90,14 +90,14 @@
                                         </p>
                                         <p class="card-text"><small class="text-muted">Ultima actualización: {{ $libro->actualizado }}</small></p>
                                         @if(auth()->check())
-                                            @if(Auth::user()->name == 'autor')
+                                            @if($rol[0]["nombre"] == 'Autor')
                                                 <form method="POST" action="{{ route('libros.destroy', $libro->id) }}">
                                                     @csrf   
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Borrar</button>
                                                 </form>
                                                 <button type="button" data-toggle="modal" data-libroid="{{ $libro->id }}" data-titulo="{{ $libro->nombre }}" data-descripcion="{{ $libro->descripcion }}" data-target="#edit" class="btn btn-success">Editar</button>
-                                            @elseif(Auth::user()->name == 'difusor')
+                                            @elseif($rol[0]["nombre"] == 'Difusor')
 
                                                 <div class="dropdown">
                                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -136,14 +136,14 @@
                                         </p>
                                         <p class="card-text"><small class="text-muted">Ultima actualización: {{ $libro->actualizado }}</small></p>
                                         @if(auth()->check())
-                                            @if(Auth::user()->name == 'autor')
+                                            @if($rol[0]["nombre"] == 'Autor')
                                                 <form method="POST" action="{{ route('libros.destroy', $libro->id) }}">
                                                     @csrf   
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Borrar</button>
                                                 </form>
                                                 <button type="button" data-libroid="{{ $libro->id }}" data-titulo="{{ $libro->nombre }}" data-descripcion="{{ $libro->descripcion }}" data-toggle="modal" data-target="#edit" class="btn btn-success">Editar</button>
-                                            @elseif(Auth::user()->name == 'difusor')
+                                            @elseif($rol[0]["nombre"] == 'Difusor')
 
                                             <div class="dropdown">
                                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -174,7 +174,7 @@
     </div>
 
     @if(auth()->check())
-        @if(Auth::user()->name == 'difusor')
+        @if($rol[0]["nombre"] == 'Difusor')
             <h2 class="text-center">PENDIENTES</h2>
             <div class="container">
                 <div class="row">

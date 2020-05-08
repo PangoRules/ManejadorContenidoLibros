@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\User;
+use App\UserRol\Models\Rol;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'WelcomeController@index')->name('welcome');
 
-Auth::routes(["register" => false]);
+Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('libros', 'LibroController')->except(['index', 'create']);
+
+Route::get('/prueba', function(){
+	
+});

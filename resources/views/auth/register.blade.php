@@ -54,6 +54,17 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="rol" class="col-md-4 col-form-label text-md-right">Elige tu rol:</label>
+                            <div class="col-md-6">
+                                <select id="rol" name="rol" class="form-control">
+                                    <option value="1">Difusor</option>
+                                    <option value="2">Autor</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+    
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
