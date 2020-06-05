@@ -8,6 +8,7 @@ use App\libros;
 use App\versiones;
 use App\UserRol\Models\Rol;
 use App\User;
+use App\rechazados;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +28,7 @@ class WelcomeController extends Controller
           $categorias = categorias::whereHas('users', function($q) use($nombre){
             $q->where('name',$nombre);
           })->get();
-          $libros = libros::join('categorias_user', 'libros.idcategoria', 'categorias_user.categorias_id')->where('user_iden',$user->id)->get();
+          $libros = libros::where("aceptado",true)->join('categorias_user', 'libros.idcategoria', 'categorias_user.categorias_id')->where('user_iden',$user->id)->get();
           //$libros = libros::join('categorias_user','libros.idcategoria','categorias_user.categorias_id')->join('categorias_user','libros.user_iden','categorias_user.user_id')->get();
         }else{
           $categorias = categorias::get()->all();
@@ -45,8 +46,9 @@ class WelcomeController extends Controller
    		$pendientes = libros::where("aceptado",false)->get()->all();
    		$versiones = versiones::get()->all();
       $categoriasTodas = categorias::whereNull('catPadre')->get()->all();
+      $rechazados = rechazados::get()->all();
 
-    	return view('welcome', compact('categorias', 'libros','pendientes','versiones', 'rol', 'autores', 'categoriasTodas'));
+    	return view('welcome', compact('categorias', 'libros','pendientes','versiones', 'rol', 'autores', 'categoriasTodas','rechazados'));
     }
 
     function autores(Request $request){

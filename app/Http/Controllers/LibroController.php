@@ -110,7 +110,7 @@ class LibroController extends Controller
                 $rechazado = new rechazados;
                 $rechazado->nombre_libro = $libro->nombre;
                 $rechazado->razón_eliminado = $request->razonNegadoHidden;
-                $rechazado->user_id = Auth::user()->id;
+                $rechazado->user_id = $request->idAutor;
                 $rechazado->save();
                 $libro->delete();
                 return back()->with('mensajeExitoLibro', 'No se ha aceptado la publicación');

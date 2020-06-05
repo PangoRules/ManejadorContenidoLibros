@@ -274,14 +274,67 @@
                                     <input type="hidden" id="siOno" name="siOno" value="false">
                                     <input type="hidden" id="idLibroAceptar" name="idLibroAceptar" value="{{ $pendiente->id }}">
                                     <input type="hidden" id="fpublicarL" name="fpublicarL" value="">
+                                    <input type="hidden" id="idAutor" name="idAutor" value="{{ $pendiente->user_iden }}">
                                     <input class="form-control" type="hidden" id="razonNegadoHidden" name="razonNegadoHidden"></input>
                                     <button type="button" id="aprovado" class="btn btn-primary" data-toggle="modal" data-target="#modalAprovacion">Aceptar</button>
                                     <button type="button" id="denegado" data-toggle="modal" data-target="#razonNegadoModal" class="btn btn-danger">Denegar</button>
                                 </form>
+                            </div>
                         @endforeach
                     </div>
                 </div>
             </div>
+        @else
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h2 class="text-center">REVISIÓN</h2>
+                </div>
+                <div class="col-6">
+                    <h2 class="text-center">NEGADOS POR DIFUSOR</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 text-center">
+                    @foreach($pendientes as $pendiente)
+                        @if($pendiente->user_iden ==  Auth::user()->id )
+                            <div class="card-header">
+                                Agregado el {{ $pendiente->fagregado }}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{ $pendiente->nombre }}
+                                </h5>
+                                <h6 class="card-subtitle">
+                                    {{ $pendiente->autor }}
+                                </h6>
+                                <p class="card-text">
+                                    {{ $pendiente->descripcion }}
+                                </p>
+                                <p class="card-text"><small class="text-muted">Ultima actualización: {{ $pendiente->actualizado }}</small></p>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+                <div class="col-6 text-center">
+                    @foreach($rechazados as $rechazado)
+                        @if($rechazado->user_id ==  Auth::user()->id )
+                            <div class="card-header">
+                                Libro Rechazado: {{ $rechazado->nombre_libro }}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Razón
+                                </h5>
+                                <p class="card-text">
+                                    {{ $rechazado->razón_eliminado }}
+                                </p>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        </div>
         @endif
     @endif
 
