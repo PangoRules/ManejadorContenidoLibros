@@ -46,7 +46,6 @@ class LibroController extends Controller
             'descripcionL' => 'required',
             'autorL' => 'required',
             'categoriaL' => 'required',
-            'fpubliL' => 'required',
         ]);
 
         $nuevoLibro = new libros;

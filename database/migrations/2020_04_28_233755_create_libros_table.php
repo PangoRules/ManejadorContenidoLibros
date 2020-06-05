@@ -20,7 +20,7 @@ class CreateLibrosTable extends Migration
             $table->text('descripcion');
             $table->string('autor');
             $table->timestamp('fagregado')->useCurrent();
-            $table->date('actualizado');
+            $table->date('actualizado')->nullable();
             $table->float('version')->default(1.0);
             $table->boolean('aceptado')->default(false);
             $table->unsignedBigInteger('idcategoria');

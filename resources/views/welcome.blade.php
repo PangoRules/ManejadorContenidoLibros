@@ -90,6 +90,7 @@
             @foreach($categorias as $categoria)
                 {{-- Revisa que las categorias no tengan dependencia --}}
                 @if(is_null($categoria->catPadre))
+                     <input name="categoriasPadre" style="visibility: hidden; display: none" value="{{ $categoria->id }}">
                     {{-- Si es uno, hablamos de lirico, el que se debe mostrar por defecto --}}
                     @if( $categoria->id <= 1)
                         <li class="activo nav-item main-nav-item" id="{{ $categoria->id }}">
@@ -101,6 +102,8 @@
                         <a class="nav-link" href="#">{{ $categoria->nombre_cat }}</a>
                     </li>
                     @endif
+                @else
+                    <input name="categoriasHija" nombre="{{ $categoria->nombre_cat }}" padres="{{ $categoria->catPadre }}" style="visibility: hidden; display: none" value="{{ $categoria->id }}">
                 @endif
             @endforeach
         </ul>
@@ -115,12 +118,12 @@
                         @if($categoria->catPadre > 0)
                             {{-- Si es 1 tiene que activar esos primeros dado que pertenece a la categoría padre que se muestra por defecto al cargar la pagina --}}
                             @if($categoria->catPadre == 1)
-                                <li class="nav-item nav-item-sub" id="{{ $categoria->catPadre }}" data-iden2="{{ $categoria->catPadre }}{{ $categoria->id }}">
+                                <li class="nav-item nav-item-sub" nombCat="{{ $categoria->nombre_cat }}" idChildCat="{{ $categoria->id }}" id="{{ $categoria->catPadre }}" data-iden2="{{ $categoria->catPadre }}{{ $categoria->id }}">
                                     <a class="nav-link" href="#">{{ $categoria->nombre_cat }}</a>
                                 </li>
                             @else
                             {{-- Si no, llena las demás --}}
-                            <li class="nav-item oculto nav-item-sub" id="{{ $categoria->catPadre }}" data-iden2="{{ $categoria->catPadre }}{{ $categoria->id }}">
+                            <li class="nav-item oculto nav-item-sub" nombCat="{{ $categoria->nombre_cat }}" idChildCat="{{ $categoria->id }}" id="{{ $categoria->catPadre }}" data-iden2="{{ $categoria->catPadre }}{{ $categoria->id }}">
                                 <a class="nav-link" href="#">{{ $categoria->nombre_cat }}</a>
                             </li>
                             @endif
@@ -134,55 +137,61 @@
                     @foreach($libros as $libro)
                         {{-- Muestra cada libro de una categoría <6 porque son los primeros que muestro, las obras liricas y sus subcategorias--}}
                         @if($libro->idcategoria <= 6)
-                            <div class="col-4 libros" id="{{ $libro->idcategoria }}">
-                                <div class="card-header">
-                                    Agregado el {{ $libro->fagregado }}
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        {{ $libro->nombre }}
-                                    </h5>
-                                    <h6 class="card-subtitle">
-                                        {{ $libro->autor }}
-                                    </h6>
-                                    <p class="card-text">
-                                        {{ $libro->descripcion }}
-                                    </p>
-                                    <p class="card-text"><small class="text-muted">Ultima actualización: {{ $libro->actualizado }}</small></p>
-                                    @if(auth()->check())
-                                        {{-- Opciones que se mostraran dependiendo si es autor, difusor o anonimo el usuario --}}
-                                        @if($rol[0]["nombre"] == 'Autor')
-                                            <form method="POST" action="{{ route('libros.destroy', $libro->id) }}">
-                                                @csrf   
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Borrar</button>
-                                            </form>
-                                            <button type="button" data-toggle="modal" data-libroid="{{ $libro->id }}" data-titulo="{{ $libro->nombre }}" data-descripcion="{{ $libro->descripcion }}" data-target="#edit" class="btn btn-success">Editar</button>
-                                        @elseif($rol[0]["nombre"] == 'Difusor')
+                            @foreach($categorias as $cate)
+                                @if($cate->id == $libro->idcategoria)
+                                    <div class="col-4 libros" id="{{ $libro->idcategoria }}" nombreLib="{{ $libro->nombre }}" nombreCat="{{ $cate->nombre_cat }}">
+                                    <div class="card-header">
+                                        Agregado el {{ $libro->fagregado }}
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            {{ $libro->nombre }}
+                                        </h5>
+                                        <h6 class="card-subtitle">
+                                            {{ $libro->autor }}
+                                        </h6>
+                                        <p class="card-text">
+                                            {{ $libro->descripcion }}
+                                        </p>
+                                        <p class="card-text"><small class="text-muted">Ultima actualización: {{ $libro->actualizado }}</small></p>
+                                        @if(auth()->check())
+                                            {{-- Opciones que se mostraran dependiendo si es autor, difusor o anonimo el usuario --}}
+                                            @if($rol[0]["nombre"] == 'Autor')
+                                                <form method="POST" action="{{ route('libros.destroy', $libro->id) }}">
+                                                    @csrf   
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Borrar</button>
+                                                </form>
+                                                <button type="button" data-toggle="modal" data-libroid="{{ $libro->id }}" data-titulo="{{ $libro->nombre }}" data-descripcion="{{ $libro->descripcion }}" data-target="#edit" class="btn btn-success">Editar</button>
+                                            @elseif($rol[0]["nombre"] == 'Difusor')
 
-                                            <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Versiones
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    @foreach($versiones as $version)
-                                                        @if($version->idlibro == $libro->id)
-                                                            <a data-nombreLibro="{{ $version->nombre }}" data-descLibro="{{ $version->descripcion }}" data-verLibro="{{ $version->version }}.0" data-toggle="modal" data-target="#modalVersion" class="dropdown-item" href="#">{{ $version->version }}.0</a>
-                                                        @endif
-                                                    @endforeach
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Versiones
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        @foreach($versiones as $version)
+                                                            @if($version->idlibro == $libro->id)
+                                                                <a data-nombreLibro="{{ $version->nombre }}" data-descLibro="{{ $version->descripcion }}" data-verLibro="{{ $version->version }}.0" data-toggle="modal" data-target="#modalVersion" class="dropdown-item" href="#">{{ $version->version }}.0</a>
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
+                                        @else
+                                            <button data-titulo="{{ $libro->nombre }}" data-toggle="modal" data-target="#modalSubscribirse" class="btn btn-primary">
+                                                SUBSCRIBIRSE
+                                            </button>
                                         @endif
-                                    @else
-                                        <button data-titulo="{{ $libro->nombre }}" data-toggle="modal" data-target="#modalSubscribirse" class="btn btn-primary">
-                                            SUBSCRIBIRSE
-                                        </button>
-                                    @endif
-                                </div>
-                            </div>
+                                    </div>
+                                    </div>
+                                @endif
+                            @endforeach
                         @else
                         {{-- Muestra cada libro de las categorias faltantes--}}
-                            <div class="col-4 libros oculto" id="{{ $libro->idcategoria }}">
+                            @foreach($categorias as $cate)
+                                @if($cate->id == $libro->idcategoria)
+                                    <div class="col-4 libros oculto" nombreLib="{{ $libro->nombre }}" id="{{ $libro->idcategoria }}" nombreCat="{{ $cate->nombre_cat }}">
                                 <div class="card-header">
                                     Agregado el {{ $libro->fagregado }}
                                 </div>
@@ -227,7 +236,9 @@
                                         </button>
                                     @endif
                                 </div>
-                            </div>
+                                    </div>
+                                @endif
+                            @endforeach
                         @endif 
                     @endforeach
                 </div>                  
@@ -295,7 +306,7 @@
                         <div class="form-group">
                             <label for="subCat">Es subcategoría de: </label>
                             <select class="form-control" id="subCat" name="subCat">
-                                <option value="0">NUEVA</option>
+                                <option value="0">NIVEL SITIO</option>
                                 @foreach($categoriasTodas as $cat)
                                     <option value="{{ $cat->id }}">{{ $cat->nombre_cat }}</option>
                                 @endforeach
@@ -311,7 +322,6 @@
         </div>
     </div>
 </div>
-
 
 {{-- Modal personalizado para agregar un nuevo libro --}}
 <section class="container-fluid" id="LibroForm">
@@ -335,26 +345,20 @@
             <div class="form-group">
                 <label for="categoriaL">Categoria del libro: </label>
                 <select class="form-control" name="categoriaL" id="categoriaL">
-                    @foreach($categorias as $categoria)
-                        {{--  @if($categoria->id > 3)--}}
+                    @if(count($categorias)==0)
+                        <option id="x" value="x">
+                            Habla con un difusor para pedir permisos de publicación
+                        </option>
+                    @else
+                        @foreach($categorias as $categoria)
                             <option id="{{ $categoria->id }}" value="{{ $categoria->id }}">
-                                {{ $categoria->nombre }}
+                                {{ $categoria->nombre_cat }}
                             </option>
-                        {{--@endif  --}}
-                    @endforeach
+                        @endforeach
+                    @endif
                 </select>
             </div>
-            <div class="form-group">
-                <label for="fpubliL">Fecha en que publico el libro: </label>
-                {{--  <input class="form-control" type="text" id="fpubliL" name="fpubliL">--}}
-
-                <div class='input-group date' id='datepicker'>
-                        <input type='text' class="form-control" id="fpubliL" name="fpubliL">
-                        <span class="input-group-addon">
-                        </span>
-                    </div>
-            </div>
-            <button style="background-color: #E8E9EB!important; color: #363636;" type="submit" class="btn btn-primary mb-2">Enviar para aprovacion</button>
+            <button style="background-color: #E8E9EB!important; color: #363636;" type="submit" id="aproveEnv" class="btn btn-primary mb-2">Enviar para aprovacion</button>
             <br>
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -400,8 +404,6 @@
     </div>
 </div>
 </div>
-
-
     
 <!-- Modal versiones-->
 <div class="modal fade" id="modalVersion" tabindex="-1" role="dialog" aria-labelledby="modalVersion" aria-hidden="true">
@@ -587,6 +589,7 @@
             }
         } 
     </script>  
+    
 {{-- Script para llenar los datepickers --}}    
     <script >
         $(function () {

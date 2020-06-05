@@ -10,10 +10,14 @@ use App\UserRol\Models\Rol;
 use App\User;
 use Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class WelcomeController extends Controller
 {
    	function index(){
+
+     // $categoriasHP = DB::table('categorias')->select('nombre_cat','id as id_catpadre')
+
    		$user = Auth::user();
    		$rol = null;
    		if($user != null){
@@ -40,7 +44,7 @@ class WelcomeController extends Controller
    		//$libros = libros::where("aceptado",true)->get()->all();
    		$pendientes = libros::where("aceptado",false)->get()->all();
    		$versiones = versiones::get()->all();
-      $categoriasTodas = categorias::get()->all();
+      $categoriasTodas = categorias::whereNull('catPadre')->get()->all();
 
     	return view('welcome', compact('categorias', 'libros','pendientes','versiones', 'rol', 'autores', 'categoriasTodas'));
     }

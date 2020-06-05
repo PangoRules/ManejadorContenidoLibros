@@ -17,6 +17,10 @@
 	display: none;
 }
 
+.noculto{
+	display: inline;
+}
+
 #LibroForm{
 	position: absolute;
 	background-color: rgba(54,54,54,0.7);
