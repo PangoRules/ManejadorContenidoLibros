@@ -14,6 +14,7 @@ class CreateRolUserTable extends Migration
     public function up()
     {
         Schema::create('rol_user', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
             $table->foreignId('rol_id')->references('id')->on('rols')->onDelete('cascade');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');

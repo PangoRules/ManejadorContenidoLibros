@@ -19,6 +19,7 @@ class LibrosSeeder extends Seeder
             'actualizado' => '1476-11-11',
             'aceptado' => true,
             'idcategoria' => '4',
+            'user_iden' => '2',
         ]); 
 
         DB::table('libros') -> insert([
@@ -29,6 +30,7 @@ class LibrosSeeder extends Seeder
             'actualizado' => '1476-11-11',
             'aceptado' => true,
             'idcategoria' => '4',
+            'user_iden' => '2',
         ]);
 
         DB::table('libros') -> insert([
@@ -39,6 +41,7 @@ class LibrosSeeder extends Seeder
             'actualizado' => '1930-01-21',
             'aceptado' => true,
             'idcategoria' => '5',
+            'user_iden' => '2',
         ]);
 
         DB::table('libros') -> insert([
@@ -49,6 +52,7 @@ class LibrosSeeder extends Seeder
             'actualizado' => '1945-08-17',
             'aceptado' => true,
             'idcategoria' => '5',
+            'user_iden' => '2',
         ]);
 
         DB::table('libros') -> insert([
@@ -67,6 +71,7 @@ Le asusta del retiro la apariencia...',
             'actualizado' => '1790-08-10',
             'aceptado' => true,
             'idcategoria' => '6',
+            'user_iden' => '2',
         ]);
 
             DB::table('libros') -> insert([
@@ -83,6 +88,7 @@ tal como la razón sus claras lumbres...',
             'actualizado' => '1835-08-17',
             'aceptado' => true,
             'idcategoria' => '6',
+            'user_iden' => '2',
         ]);  
 
             DB::table('libros') -> insert([
@@ -93,6 +99,7 @@ tal como la razón sus claras lumbres...',
             'actualizado' => '1865-11-25',
             'aceptado' => true,
             'idcategoria' => '7',
+            'user_iden' => '2',
         ]);
 
             DB::table('libros') -> insert([
@@ -103,6 +110,7 @@ tal como la razón sus claras lumbres...',
             'actualizado' => '1840-10-07',
             'aceptado' => true,
             'idcategoria' => '7',
+            'user_iden' => '2',
         ]);  
 
 		DB::table('libros') -> insert([
@@ -113,6 +121,7 @@ tal como la razón sus claras lumbres...',
 		'actualizado' => '1865-11-25',
 		'aceptado' => true,
 		'idcategoria' => '8',
+		'user_iden' => '2',
 		]);
 
 		DB::table('libros') -> insert([
@@ -123,6 +132,7 @@ tal como la razón sus claras lumbres...',
 		'actualizado' => '1897-05-26',
 		'aceptado' => true,
 		'idcategoria' => '8',
+		'user_iden' => '2',
 		]);  
 
 		DB::table('libros') -> insert([
@@ -147,6 +157,7 @@ de mi mano y su aviso...',
 		'actualizado' => '1920-05-15',
 		'aceptado' => true,
 		'idcategoria' => '9',
+		'user_iden' => '2',
 		]);
 
 		DB::table('libros') -> insert([
@@ -157,6 +168,7 @@ de mi mano y su aviso...',
 		'actualizado' => '1597-01-15',
 		'aceptado' => true,
 		'idcategoria' => '10',
+		'user_iden' => '2',
 		]);  
 
 		DB::table('libros') -> insert([
@@ -167,6 +179,7 @@ de mi mano y su aviso...',
 		'actualizado' => '1304-05-26',
 		'aceptado' => true,
 		'idcategoria' => '10',
+		'user_iden' => '2',
 		]);
 
 		DB::table('libros') -> insert([
@@ -177,6 +190,7 @@ de mi mano y su aviso...',
 		'actualizado' => '1853-03-06',
 		'aceptado' => true,
 		'idcategoria' => '11',
+		'user_iden' => '2',
 		]);  
 
 		DB::table('libros') -> insert([
@@ -187,6 +201,7 @@ de mi mano y su aviso...',
 		'actualizado' => '1900-01-14',
 		'aceptado' => true,
 		'idcategoria' => '11',
+		'user_iden' => '2',
 		]);
 
 		DB::table('libros') -> insert([
@@ -197,6 +212,7 @@ de mi mano y su aviso...',
 		'actualizado' => '1985-03-06',
 		'aceptado' => true,
 		'idcategoria' => '12',
+		'user_iden' => '2',
 		]);  
 
 		DB::table('libros') -> insert([
@@ -207,6 +223,7 @@ de mi mano y su aviso...',
 		'actualizado' => '1953-01-22',
 		'aceptado' => true,
 		'idcategoria' => '12',
+		'user_iden' => '2',
 		]);
     }
 }

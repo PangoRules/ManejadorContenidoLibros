@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\libros;
 use App\versiones;
+use App\subscriptores;
+use App\rechazados;
+use Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CorreoSubscriptorActualizacion;
 use Illuminate\Http\Request;
 
 class LibroController extends Controller
@@ -51,6 +56,7 @@ class LibroController extends Controller
         $nuevoLibro->idcategoria = $request->input('categoriaL');
         $nuevoLibro->actualizado = $request->input('fpubliL');
         $nuevoLibro->version = 1.0;
+        $nuevoLibro->user_iden = Auth::user()->id;
         $nuevoLibro->save();
         
         $versionN = new versiones();
@@ -96,13 +102,18 @@ class LibroController extends Controller
     {
         if($request->has("siOno")){
             $libro = libros::where('id',$request->idLibroAceptar)->first();  
-            if($request->siOno == true){
+            if($request->siOno == "true"){
                 $libro->aceptado = true;
+                $libro->fagregado = $request->fpublicarL;
                 $libro->save();
                 return back()->with('mensajeExitoLibro', 'Se ha aceptado la publicación');
             }else{
-                $libro->aceptado = false;
-                $libro->save();
+                $rechazado = new rechazados;
+                $rechazado->nombre_libro = $libro->nombre;
+                $rechazado->razón_eliminado = $request->razonNegadoHidden;
+                $rechazado->user_id = Auth::user()->id;
+                $rechazado->save();
+                $libro->delete();
                 return back()->with('mensajeExitoLibro', 'No se ha aceptado la publicación');
             }
         }else{
@@ -116,14 +127,18 @@ class LibroController extends Controller
             $libro->version = $versionActual;
             $libro->save();
 
-            
-
             $versionN = new versiones();
             $versionN->idlibro = $libro->id;
             $versionN->version = $versionActual;
             $versionN->nombre = $request->nombreL;
             $versionN->descripcion = $request->descripcionL;
             $versionN->save();
+
+            $subscriptor = subscriptores::where('libroId',$libro->id)->firstOrFail();
+            if(!empty($subscriptor)){
+                Mail::to($subscriptor->get('email'))->send(new CorreoSubscriptorActualizacion($libro->nombre));
+            }
+
         }
         
         return back()->with('mensajeExitoLibro', 'Cambio realizado con exito');

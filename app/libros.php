@@ -15,6 +15,7 @@ class libros extends Model
         'version',
         'aceptado',
         'idcategoria',
+        'user_iden',
     ];
 
     protected $table = 'libros';

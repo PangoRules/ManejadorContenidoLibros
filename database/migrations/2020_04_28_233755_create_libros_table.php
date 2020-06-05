@@ -24,6 +24,7 @@ class CreateLibrosTable extends Migration
             $table->float('version')->default(1.0);
             $table->boolean('aceptado')->default(false);
             $table->unsignedBigInteger('idcategoria');
+            $table->foreignId('user_iden')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });

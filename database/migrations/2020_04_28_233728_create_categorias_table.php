@@ -16,8 +16,8 @@ class CreateCategoriasTable extends Migration
         Schema::create('categorias', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id();
-            $table->string('nombre');
-            $table->foreignID('catPadre')->nullable();
+            $table->string('nombre_cat');
+            $table->foreignID('catPadre')->nullable()->onDelete('cascade');
             $table->timestamps();
         });
         Schema::table('categorias', function($table){

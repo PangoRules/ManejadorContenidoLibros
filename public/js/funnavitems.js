@@ -1,5 +1,5 @@
-function Suscribirse(){
-        alert("Te has suscrito al autor");
+function Subscribirse(){
+    alert("Te has suscrito al autor");
 }
 
 $(document).ready(function(){
@@ -11,10 +11,13 @@ $(document).ready(function(){
             $('.nav-item-sub').each(function(){
                 if(elemento1.attr('id') == $(this).attr('id')){
                     $(this).removeClass('oculto');
+                    console.log($(this));
+                    
                 }else{
                     $(this).addClass('oculto');
                 }
             });
+            console.log($('.nav-item-sub'));
             switch(elemento1.attr('id')){
                     case '1':
                         $('.libros').each(function(){
@@ -42,7 +45,7 @@ $(document).ready(function(){
                                 $(this).addClass('oculto');
                             }
                         });
-                    break;       
+                    break;      
                 }
             }
     });

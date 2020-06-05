@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\categorias;
 
 class CategoriasSeeder extends Seeder
 {
@@ -11,50 +12,54 @@ class CategoriasSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Lírico',
-        ]);    
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Narrativo',
-        ]);   
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Dramatico',
-        ]);   
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Elegía',
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Lírico',
+        ])->users()->attach([2]);    
+
+        //$categoria = categorias::find(1);
+        //$categoria->users()->attach([2]);
+
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Narrativo',
+        ])->users()->attach([2]);   
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Dramatico',
+        ])->users()->attach([2]);   
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Elegía',
         	'catPadre' => '1'
-        ]);   
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Satira',
+        ]);//->users()->attach([2]);   
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Satira',
         	'catPadre' => '1'
-        ]);     
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Oda',
+        ])->users()->attach([2]);     
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Oda',
         	'catPadre' => '1'
-        ]);  
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Cuento',
+        ])->users()->attach([2]);  
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Cuento',
         	'catPadre' => '2'
-        ]);   
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Novela',
+        ])->users()->attach([2]);   
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Novela',
         	'catPadre' => '2'
-        ]);     
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Poema',
+        ])->users()->attach([2]);     
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Poema',
         	'catPadre' => '2'
-        ]);   
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Drama',
+        ])->users()->attach([2]);   
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Drama',
         	'catPadre' => '3'
-        ]);   
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Opera',
+        ])->users()->attach([2]);   
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Opera',
         	'catPadre' => '3'
-        ]);     
-        DB::table('categorias') -> insert([
-        	'nombre' => 'Tragedia',
+        ])->users()->attach([2]);     
+        $categoria = categorias::create([
+        	'nombre_cat' => 'Tragedia',
         	'catPadre' => '3'
-        ]);      
+        ])->users()->attach([2]);      
     }
 }
