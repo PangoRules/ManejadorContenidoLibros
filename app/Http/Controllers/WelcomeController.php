@@ -9,6 +9,7 @@ use App\versiones;
 use App\UserRol\Models\Rol;
 use App\User;
 use App\rechazados;
+use App\subscriptores;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -47,9 +48,10 @@ class WelcomeController extends Controller
    		$pendientes = libros::where("aceptado",false)->get()->all();
    		$versiones = versiones::get()->all();
       $categoriasTodas = categorias::whereNull('catPadre')->get()->all();
-      $rechazados = rechazados::get()->all();      
+      $rechazados = rechazados::get()->all(); 
+      $subscriptores = subscriptores::with('libros')->get()->all();     
 
-    	return view('welcome', compact('categorias', 'libros','pendientes','versiones', 'rol', 'autores', 'categoriasTodas','rechazados'));
+    	return view('welcome', compact('categorias', 'libros','pendientes','versiones', 'rol', 'autores', 'categoriasTodas','rechazados', 'subscriptores'));
     }
 
     function autores(Request $request){

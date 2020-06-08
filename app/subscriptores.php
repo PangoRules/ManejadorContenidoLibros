@@ -14,4 +14,8 @@ class subscriptores extends Model
     protected $table = 'subscriptores';
 
     protected $primaryKey = 'id';
+
+    public function libros(){
+    	return $this->belongsToMany('App\libros')->withTimesTamps();
+    }
 }

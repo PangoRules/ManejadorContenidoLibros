@@ -28,6 +28,33 @@
         </div>
     {{-- Si no, muestra las opciones del difusor (el usuario esta identificado pero su rol no es autor) --}}
     @else
+        <div class="container">
+            <p>
+                <a class="btn btn-primary" data-toggle="collapse" href="#ListaSubscriptores" role="button" aria-expanded="false" aria-controls="ListaSubscriptores">
+                Ver subscriptores
+                </a>
+            </p>
+            <div class="collapse" id="ListaSubscriptores">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Libro Subscrito</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($subscriptores as $subscriptor)
+                            <tr>
+                                <th scope="row">{{ $subscriptor->id }}</th>
+                                <td>{{ $subscriptor->email }}</td>
+                                <td>{{ $subscriptor->libros[0]['nombre'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="container text-center">
             <div class="row mt-5">
                 <div class="col-4">

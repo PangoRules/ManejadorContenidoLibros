@@ -14,12 +14,13 @@ class EnviarCorreosController extends Controller
     	$data = $request->get('tituloLibro');
     	$libro = libros::where('nombre',$request->get('tituloLibro'))->first();
     	$matchThese = ['email' => $request->get('email'), 'libroId' => $libro->id];
-
     	if(subscriptores::where($matchThese)->exists() != 1){
     		$subscriptor = new subscriptores();
 	        $subscriptor->email = $request->get('email');
 	        $subscriptor->libroId = $libro->id;
 	        $subscriptor->save();
+            $libro->subscriptores()->attach([$subscriptor->id]);
+            $libro->save();
 	        Mail::to($request->get('email'))->send(new CorreoSubscriptor($data));
 	    	echo 'chido';
     	}else{
