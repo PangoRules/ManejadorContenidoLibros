@@ -14,52 +14,52 @@ class CategoriasSeeder extends Seeder
     {
         $categoria = categorias::create([
         	'nombre_cat' => 'Lírico',
-        ])->users()->attach([2]);    
+        ])->users()->attach([3]);    
 
         //$categoria = categorias::find(1);
         //$categoria->users()->attach([2]);
 
         $categoria = categorias::create([
         	'nombre_cat' => 'Narrativo',
-        ])->users()->attach([2]);   
+        ])->users()->attach([3]);   
         $categoria = categorias::create([
-        	'nombre_cat' => 'Dramatico',
-        ])->users()->attach([2]);   
+        	'nombre_cat' => 'Dramático',
+        ])->users()->attach([3]);   
         $categoria = categorias::create([
         	'nombre_cat' => 'Elegía',
         	'catPadre' => '1'
-        ]);//->users()->attach([2]);   
+        ])->users()->attach([3]);   
         $categoria = categorias::create([
         	'nombre_cat' => 'Satira',
         	'catPadre' => '1'
-        ])->users()->attach([2]);     
+        ])->users()->attach([3]);     
         $categoria = categorias::create([
         	'nombre_cat' => 'Oda',
         	'catPadre' => '1'
-        ])->users()->attach([2]);  
+        ])->users()->attach([3]);  
         $categoria = categorias::create([
         	'nombre_cat' => 'Cuento',
         	'catPadre' => '2'
-        ])->users()->attach([2]);   
+        ])->users()->attach([3]);   
         $categoria = categorias::create([
         	'nombre_cat' => 'Novela',
         	'catPadre' => '2'
-        ])->users()->attach([2]);     
+        ])->users()->attach([3]);     
         $categoria = categorias::create([
         	'nombre_cat' => 'Poema',
         	'catPadre' => '2'
-        ])->users()->attach([2]);   
+        ])->users()->attach([3]);   
         $categoria = categorias::create([
         	'nombre_cat' => 'Drama',
         	'catPadre' => '3'
-        ])->users()->attach([2]);   
+        ])->users()->attach([3]);   
         $categoria = categorias::create([
         	'nombre_cat' => 'Opera',
         	'catPadre' => '3'
-        ])->users()->attach([2]);     
+        ])->users()->attach([3]);     
         $categoria = categorias::create([
         	'nombre_cat' => 'Tragedia',
         	'catPadre' => '3'
-        ])->users()->attach([2]);      
+        ])->users()->attach([3]);      
     }
 }

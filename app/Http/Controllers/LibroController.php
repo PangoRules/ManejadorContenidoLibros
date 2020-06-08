@@ -99,18 +99,19 @@ class LibroController extends Controller
      */
     public function update(Request $request)
     {
-        if($request->has("siOno")){
-            $libro = libros::where('id',$request->idLibroAceptar)->first();  
+        if($request->has("siOno")){  
             if($request->siOno == "true"){
+                $libro = libros::where('id',$request->idLibroPublicar)->first();
                 $libro->aceptado = true;
                 $libro->fagregado = $request->fpublicarL;
                 $libro->save();
                 return back()->with('mensajeExitoLibro', 'Se ha aceptado la publicación');
             }else{
+                $libro = libros::where('id',$request->idLibroNegar)->first();
                 $rechazado = new rechazados;
                 $rechazado->nombre_libro = $libro->nombre;
-                $rechazado->razón_eliminado = $request->razonNegadoHidden;
-                $rechazado->user_id = $request->idAutor;
+                $rechazado->razón_eliminado = $request->razonNegadoTxt;
+                $rechazado->user_id = $request->idAutorNegado;
                 $rechazado->save();
                 $libro->delete();
                 return back()->with('mensajeExitoLibro', 'No se ha aceptado la publicación');
@@ -137,10 +138,8 @@ class LibroController extends Controller
             if(!empty($subscriptor)){
                 Mail::to($subscriptor->get('email'))->send(new CorreoSubscriptorActualizacion($libro->nombre));
             }
-
+            return back()->with('mensajeExitoLibro', 'Cambio realizado con exito');
         }
-        
-        return back()->with('mensajeExitoLibro', 'Cambio realizado con exito');
     }
 
     /**

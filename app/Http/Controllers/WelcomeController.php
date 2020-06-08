@@ -28,7 +28,8 @@ class WelcomeController extends Controller
           $categorias = categorias::whereHas('users', function($q) use($nombre){
             $q->where('name',$nombre);
           })->get();
-          $libros = libros::where("aceptado",true)->join('categorias_user', 'libros.idcategoria', 'categorias_user.categorias_id')->where('user_iden',$user->id)->get();
+          $libros = libros::where("aceptado",true)->whereDate('fagregado', '<=', date('Y-m-d').'00:00:00')->get()->all();
+          
           //$libros = libros::join('categorias_user','libros.idcategoria','categorias_user.categorias_id')->join('categorias_user','libros.user_iden','categorias_user.user_id')->get();
         }else{
           $categorias = categorias::get()->all();
@@ -46,7 +47,7 @@ class WelcomeController extends Controller
    		$pendientes = libros::where("aceptado",false)->get()->all();
    		$versiones = versiones::get()->all();
       $categoriasTodas = categorias::whereNull('catPadre')->get()->all();
-      $rechazados = rechazados::get()->all();
+      $rechazados = rechazados::get()->all();      
 
     	return view('welcome', compact('categorias', 'libros','pendientes','versiones', 'rol', 'autores', 'categoriasTodas','rechazados'));
     }

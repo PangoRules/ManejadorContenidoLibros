@@ -21,6 +21,13 @@ class UserSeeder extends Seeder
         ])->rols()->attach([1]);
 
         $user = User::create([
+            'name' => 'difusor1',
+            'email' => 'difusor1@difusor.com',
+            'username' => 'difusor1',
+            'password' => bcrypt('difusor1'),
+        ])->rols()->attach([1]);
+
+        $user = User::create([
             'name' => 'autor',
             'email' => 'autor@autor.com',
             'username' => 'autor',

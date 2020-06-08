@@ -162,7 +162,7 @@
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Borrar</button>
                                                 </form>
-                                                <button type="button" data-toggle="modal" data-libroid="{{ $libro->id }}" data-titulo="{{ $libro->nombre }}" data-descripcion="{{ $libro->descripcion }}" data-target="#edit" class="btn btn-success">Editar</button>
+                                                <button type="button" data-toggle="modal" data-libroiden="{{ $libro->id }}" data-titulo="{{ $libro->nombre }}" data-descripcion="{{ $libro->descripcion }}" data-target="#edit" class="btn btn-success">Editar</button>
                                             @elseif($rol[0]["nombre"] == 'Difusor')
 
                                                 <div class="dropdown">
@@ -214,7 +214,7 @@
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Borrar</button>
                                             </form>
-                                            <button type="button" data-libroid="{{ $libro->id }}" data-titulo="{{ $libro->nombre }}" data-descripcion="{{ $libro->descripcion }}" data-toggle="modal" data-target="#edit" class="btn btn-success">Editar</button>
+                                            <button type="button" data-libroiden="{{ $libro->id }}" data-titulo="{{ $libro->nombre }}" data-descripcion="{{ $libro->descripcion }}" data-toggle="modal" data-target="#edit" class="btn btn-success">Editar</button>
                                         @elseif($rol[0]["nombre"] == 'Difusor')
 
                                         <div class="dropdown">
@@ -268,17 +268,12 @@
                                     {{ $pendiente->descripcion }}
                                 </p>
                                 <p class="card-text"><small class="text-muted">Ultima actualización: {{ $pendiente->actualizado }}</small></p>
-                                <form method="post" action="{{ route('libros.update', 'none') }}" id="aceptarono">
-                                    @csrf
-                                    {{ method_field('patch') }}
-                                    <input type="hidden" id="siOno" name="siOno" value="false">
-                                    <input type="hidden" id="idLibroAceptar" name="idLibroAceptar" value="{{ $pendiente->id }}">
+                                    <input type="hidden" id="idLibroAceptar" name="idLibroAceptar" value="">
                                     <input type="hidden" id="fpublicarL" name="fpublicarL" value="">
                                     <input type="hidden" id="idAutor" name="idAutor" value="{{ $pendiente->user_iden }}">
                                     <input class="form-control" type="hidden" id="razonNegadoHidden" name="razonNegadoHidden"></input>
-                                    <button type="button" id="aprovado" class="btn btn-primary" data-toggle="modal" data-target="#modalAprovacion">Aceptar</button>
-                                    <button type="button" id="denegado" data-toggle="modal" data-target="#razonNegadoModal" class="btn btn-danger">Denegar</button>
-                                </form>
+                                    <button type="button" id="aprovado" data-idAceptar="{{ $pendiente->id }}" class="btn btn-primary" data-toggle="modal" data-target="#modalAprovacion">Aceptar</button>
+                                    <button type="button" id="denegado" data-idNegar="{{ $pendiente->id }}" data-idAutorNegar="{{ $pendiente->user_iden }}" data-toggle="modal" data-target="#razonNegadoModal" class="btn btn-danger">Denegar</button>
                             </div>
                         @endforeach
                     </div>
@@ -437,7 +432,7 @@
         </div>
         <form method="POST" action="{{ route('libros.update', '1') }}">
             @csrf
-            {{ method_field('patch') }}
+            {{ method_field('put') }}
             <div class="modal-body">
                 <div class="form-group">
                     <input type="hidden" name="idLibro" id="idLibro" value="">
@@ -463,7 +458,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalVersion">Modal title</h5>
+        <h5 class="modal-title" id="modalVersion">Version Seleccionada</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -520,10 +515,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                <textarea class="form-control" type="text" id="razonNegadoTxt" name="razonNegadoTxt" rows="4" cols="50"></textarea>
+                <form method="post" action="{{ route('libros.update', 'none') }}" id="negadoncio">
+                    @csrf
+                    {{ method_field('patch') }}
+                    <input type="hidden" id="siOno" name="siOno" value="false">
+                    <input type="hidden" id="idAutorNegado" name="idAutorNegado">
+                    <input type="hidden" id="idLibroNegar" name="idLibroNegar" value="">
+                    <textarea class="form-control" type="text" id="razonNegadoTxt" name="razonNegadoTxt" rows="4" cols="50"></textarea>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-primary">Aceptar</button>
+                <button type="button" id="aceptarNegado" data-dismiss="modal" class="btn btn-primary">Aceptar</button>
             </div>
         </div>
     </div>
@@ -539,17 +541,23 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h5 class="modal-title" id="staticBackdropLabel">¿Cuando desea que se publique?</h5><br>
-                <small class="modal-sm">SI SE DEJA EN BLANCO SE PUBLICA A LA FECHA INDICADA POR EL AUTOR</small>
+                <small class="modal-sm">SI SE DEJA EN BLANCO SE PUBLICA HOY</small>
             </div>
             <div class="modal-body">
-                <div class='input-group date' id='datepickerL'>
-                    <input type='text' class="form-control" id="fnpubliL" name="fnpubliL">
-                    <span class="input-group-addon">
-                    </span>
-                </div>
+                <form method="post" action="{{ route('libros.update', 'none') }}" id="aceptarono">
+                    @csrf
+                    {{ method_field('patch') }}
+                    <input type="hidden" id="idLibroPublicar" name="idLibroPublicar" value="">
+                    <input type="hidden" id="siOno" name="siOno" value="false">
+                    <div class='input-group date' id='datepickerL'>
+                        <input type='text' class="form-control" id="fnpubliL" name="fnpubliL">
+                        <span class="input-group-addon">
+                        </span>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-primary">Publicar</button>
+                <button type="button" id="PublicarCont" class="btn btn-primary">Publicar</button>
             </div>
         </div>
     </div>
@@ -562,6 +570,7 @@
     </script>  
     <script type="text/javascript" src="{{ asset('js/libroStore.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/JDMcKinstry/JavaScriptDateFormat/master/Date.format.min.js"></script>
 
 {{-- Script para asignar o revocar permisos de un usuario --}}  
     <script>
@@ -714,7 +723,7 @@
             var button = $(event.relatedTarget);
             var titulo = button.data('titulo');
             var descripcion = button.data('descripcion');
-            var id = button.data('libroid');
+            var id = button.data('libroiden');
             var modal = $(this);
             modal.find('.modal-body #nombreL').val(titulo);
             modal.find('.modal-body #descripcionL').val(descripcion);
@@ -724,26 +733,33 @@
 
 {{-- Script para llevar a cabo si se aprobo o no el libro propuesto por el autor--}}
     <script>
-        $('#modalAprovacion').on('hide.bs.modal', function(event){
-            var fecha = $(this).find('.modal-body #fnpubliL').val();
-            $('#siOno').val(true);
-            if(fecha != null){
-                $('#fpublicarL').val(fecha);
+        $('#modalAprovacion').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            //console.log(button.attr('data-idAceptar'));
+            $(this).find('#idLibroPublicar').val(button.attr('data-idAceptar'));
+            console.log((button.attr('data-idAceptar')));
+        })
+        $('#PublicarCont').click(function(){
+            var modal = $('#modalAprovacion');
+            var fecha = modal.find('.modal-body #fnpubliL').val();
+            modal.find('.modal-body #siOno').val(true);
+            if(fecha == ""){
+                modal.find('.modal-body #fnpubliL').val(new Date().format('Y-m-d'));
             }
-        });
-
-        $('#modalAprovacion').on('hidden.bs.modal', function(event){
             $('#aceptarono').submit();
         });
 
-        $('#razonNegadoModal').on('hide.bs.modal', function(event){
-            var razon = $(this).find('.modal-body #razonNegadoTxt').val();
-            $('#razonNegadoHidden').val(razon);
+        $('#razonNegadoModal').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            $(this).find('#idAutorNegado').val(button.attr('data-idAutorNegar'));
+            $(this).find('#idLibroNegar').val(button.attr('data-idNegar'));            
+        });
+
+        $('#aceptarNegado').click(function(){
+            var modal = $('#razonNegadoModal');
+            modal.find('.modal-body #idAutorNegado').val();
             $('#siOno').val(false);
-        });
-
-        $('#razonNegadoModal').on('hidden.bs.modal', function(event){
-            $('#aceptarono').submit();
+            $('#negadoncio').submit();
         });
     </script>
 
